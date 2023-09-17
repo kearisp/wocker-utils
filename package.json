@@ -1,0 +1,19 @@
+{
+    "name": "@wocker/utils",
+    "version": "1.0.0",
+    "author": "Kris Papercut <krispcut@gmail.com>",
+    "description": "Utils for @wocker",
+    "license": "MIT",
+    "main": "index.js",
+    "homepage": "https://github.com/kearisp/wocker-utils#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kearisp/wocker-utils.git"
+    },
+    "bugs": {
+        "url": "https://github.com/kearisp/wocker-utils/issues"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
+}
