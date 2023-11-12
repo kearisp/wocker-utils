@@ -1,11 +1,14 @@
 {
     "name": "@wocker/utils",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
+    "keywords": [
+        "wocker"
+    ],
     "homepage": "https://github.com/kearisp/wocker-utils#readme",
     "repository": {
         "type": "git",
@@ -21,9 +24,10 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "inquirer": "^7.0.0"
+        "inquirer": "^7.3.3"
     },
     "devDependencies": {
+        "@types/inquirer": "^7.3.3",
         "jest": "^29.7.0",
         "typescript": "^5.2.2"
     }

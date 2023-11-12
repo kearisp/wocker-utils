@@ -6,7 +6,7 @@ type Options = {
     default?: boolean;
 };
 
-export const promptConfirm = async (options: Options) => {
+export const promptConfirm = async (options: Options): Promise<boolean> => {
     const {
         message,
         default: defaultValue = true
