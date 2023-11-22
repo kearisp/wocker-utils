@@ -1,39 +1,50 @@
 import inquirer from "inquirer";
 
+import {normalizeOptions, RawOptions} from "./normalizeOptions";
+
 
 type Options = {
     message?: string;
-    options: string[] | {[value: string]: string;} | {label?: string; value: string;}[];
+    options: RawOptions;
+} & ({
+    multiple?: false;
     default?: string;
-};
+} | {
+    multiple: true;
+    default?: string[];
+});
 
-export const promptSelect = async (props: Options) => {
+type ResultType<T extends Options> = T['multiple'] extends true ? string[] : string;
+
+export const promptSelect = async <T extends Options>(props: T): Promise<ResultType<T>> => {
     const {
         message,
         options: rawOptions,
-        default: defaultValue
     } = props;
 
-    const options = Array.isArray(rawOptions)
-        ? rawOptions.map((option) => {
-            return {
-                label: typeof option === "string"
-                    ? option
-                    : option.label || option.value || "",
-                value: typeof option === "string"
-                    ? option
-                    : option.value || ""
-            };
-        })
-        : Object.keys(rawOptions).map((value) => {
-            return {
-                label: rawOptions[value],
-                value
-            };
+    const options = normalizeOptions(rawOptions);
+
+    if(props.multiple) {
+        const {value} = await inquirer.prompt({
+            message,
+            name: "value",
+            type: "checkbox",
+            choices: options.map((option) => {
+                return {
+                    name: option.label,
+                    value: option.value,
+                    checked: Array.isArray(props.default)
+                        ? props.default.includes(option.value)
+                        : false
+                };
+            })
         });
 
+        return value as ResultType<T>;
+    }
+
     const defaultOption = options.find((option) => {
-        return option.value === defaultValue;
+        return option.value === props.default;
     });
 
     const {value} = await inquirer.prompt({
@@ -51,10 +62,10 @@ export const promptSelect = async (props: Options) => {
     });
 
     if(selected) {
-        return selected.value;
+        return selected.value as ResultType<T>;
     }
 
-    return "";
+    return "" as ResultType<T>;
 };
 
 

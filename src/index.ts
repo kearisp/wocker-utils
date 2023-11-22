@@ -1,4 +1,5 @@
 export * from "./demuxOutput";
+export * from "./promptConfig";
 export * from "./promptConfirm";
 export * from "./promptGroup";
 export * from "./promptSelect";

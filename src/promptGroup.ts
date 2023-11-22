@@ -1,3 +1,4 @@
+import {normalizeOptions, RawOptions} from "./normalizeOptions";
 import {promptConfirm, PromptConfirmOptions} from "./promptConfirm";
 import {promptSelect, PromptSelectOptions} from "./promptSelect";
 import {promptText, PromptTextOptions} from "./promptText";
