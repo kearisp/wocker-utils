@@ -36,9 +36,11 @@ export const promptConfig = async (options: Options, values: any = {}) => {
 
                 const selected = await promptConfirm({
                     ...rest,
-                    default: typeof values[key] !== "undefined"
-                        ? values[key] === "true"
-                        : params.default as boolean
+                    default: typeof values[key] === "boolean"
+                        ? values[key]
+                        : typeof values[key] !== "undefined"
+                            ? values[key] === "true"
+                            : params.default as boolean
                 });
 
                 if(selected) {
@@ -47,7 +49,6 @@ export const promptConfig = async (options: Options, values: any = {}) => {
                 else if(key in values) {
                     delete values[key];
                 }
-
                 break;
             }
 
@@ -60,7 +61,7 @@ export const promptConfig = async (options: Options, values: any = {}) => {
                     const selected = await promptSelect({
                         ...rest,
                         default: options.map((option) => {
-                            return option.value
+                            return option.value;
                         }).filter((name) => {
                             return values[name];
                         })
