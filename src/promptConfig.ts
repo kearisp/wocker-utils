@@ -34,7 +34,7 @@ export const promptConfig = async (options: Options, values: any = {}) => {
             case "boolean": {
                 const {type, ...rest} = params;
 
-                const selected = await promptConfirm({
+                values[key] = await promptConfirm({
                     ...rest,
                     default: typeof values[key] === "boolean"
                         ? values[key]
@@ -42,13 +42,6 @@ export const promptConfig = async (options: Options, values: any = {}) => {
                             ? values[key] === "true"
                             : params.default as boolean
                 });
-
-                if(selected) {
-                    values[key] = true;
-                }
-                else if(key in values) {
-                    delete values[key];
-                }
                 break;
             }
 
