@@ -36,7 +36,7 @@ export const promptText = async (options: Options) => {
         })(),
         message,
         default: defaultValue,
-        validate(value: string): boolean | string | Promise<boolean | string> {
+        validate(value?: any): boolean | string | Promise<boolean | string> {
             if(required) {
                 if(typeof value === "undefined" || value === "") {
                     return "Mandatory value";
