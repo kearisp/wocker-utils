@@ -7,8 +7,9 @@ type Options = {
     message?: string;
     prefix?: string;
     suffix?: string;
-    type?: "string" | "number" | "int";
+    type?: "string" | "number" | "int" | "password";
     default?: number | string;
+    validate?: (value?: string) => boolean | string | Promise<boolean | string>;
 };
 
 export const promptText = async (options: Options) => {
@@ -18,15 +19,24 @@ export const promptText = async (options: Options) => {
         prefix = "",
         suffix = "",
         type,
-        default: defaultValue
+        default: defaultValue,
+        validate
     } = options;
 
     const {value} = await inquirer.prompt({
         name: "value",
-        type: "input",
+        type: (() => {
+            switch(type) {
+                case "password":
+                    return type;
+
+                default:
+                    return "input";
+            }
+        })(),
         message,
         default: defaultValue,
-        validate(value: any): boolean | string | Promise<boolean | string> {
+        validate(value: string): boolean | string | Promise<boolean | string> {
             if(required) {
                 if(typeof value === "undefined" || value === "") {
                     return "Mandatory value";
@@ -39,9 +49,13 @@ export const promptText = async (options: Options) => {
                 }
             }
 
+            if(validate) {
+                return validate(value);
+            }
+
             return true;
         },
-        transformer(value: any): string | Promise<string> {
+        transformer(value: any): string {
             if(!prefix && !suffix) {
                 return value;
             }
