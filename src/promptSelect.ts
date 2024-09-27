@@ -16,7 +16,7 @@ type Options = {
 
 type ResultType<T extends Options> = T['multiple'] extends true ? string[] : string;
 
-export const promptSelect = async <T extends Options>(props: T): Promise<ResultType<T>> => {
+export const promptSelect = async <R extends ResultType<T>, T extends Options = any>(props: T): Promise<R> => {
     const {
         message,
         options: rawOptions,
@@ -40,7 +40,7 @@ export const promptSelect = async <T extends Options>(props: T): Promise<ResultT
             })
         });
 
-        return value as ResultType<T>;
+        return value as R;
     }
 
     const defaultOption = options.find((option) => {
@@ -62,10 +62,10 @@ export const promptSelect = async <T extends Options>(props: T): Promise<ResultT
     });
 
     if(selected) {
-        return selected.value as ResultType<T>;
+        return selected.value as R;
     }
 
-    return "" as ResultType<T>;
+    return "" as R;
 };
 
 
