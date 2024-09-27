@@ -1,6 +1,6 @@
 {
     "name": "@wocker/utils",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
