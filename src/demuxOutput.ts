@@ -1,4 +1,4 @@
-export const demuxOutput = (buffer: Buffer) => {
+export const demuxOutput = (buffer: Buffer): Buffer => {
     let nextDataLength = null,
         output = Buffer.from([]);
 
@@ -10,10 +10,10 @@ export const demuxOutput = (buffer: Buffer) => {
         output = Buffer.concat([output, content]);
     }
 
-    function bufferSlice(end: number) {
-        const out = buffer.slice(0, end);
+    function bufferSlice(end: number): Buffer {
+        const out = buffer.subarray(0, end);
 
-        buffer = Buffer.from(buffer.slice(end, buffer.length));
+        buffer = Buffer.from(buffer.subarray(end, buffer.length));
 
         return out;
     }
