@@ -7,7 +7,9 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "keywords": [
-        "wocker"
+        "wocker",
+        "cli",
+        "utils"
     ],
     "homepage": "https://kearisp.github.io/wocker",
     "repository": {
