@@ -1,13 +1,15 @@
 {
     "name": "@wocker/utils",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "keywords": [
-        "wocker"
+        "wocker",
+        "cli",
+        "utils"
     ],
     "homepage": "https://kearisp.github.io/wocker",
     "repository": {
