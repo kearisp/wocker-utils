@@ -11,9 +11,9 @@ export const demuxOutput = (buffer: Buffer): Buffer => {
     }
 
     function bufferSlice(end: number): Buffer {
-        const out = buffer.subarray(0, end);
+        const out = (buffer.slice || buffer.subarray)(0, end);
 
-        buffer = Buffer.from(buffer.subarray(end, buffer.length));
+        buffer = Buffer.from((buffer.slice || buffer.subarray)(end, buffer.length));
 
         return out;
     }
