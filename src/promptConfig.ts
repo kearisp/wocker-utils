@@ -47,12 +47,13 @@ export const promptConfig = async (options: Options, values: any = {}) => {
 
             case "select": {
                 if(params.multiple) {
-                    const {type, ...rest} = params;
+                    const {type, multiple, ...rest} = params;
 
                     const options = normalizeOptions(params.options);
 
                     const selected = await promptSelect({
                         ...rest,
+                        multiple: true,
                         default: options.map((option) => {
                             return option.value;
                         }).filter((name) => {
@@ -70,10 +71,11 @@ export const promptConfig = async (options: Options, values: any = {}) => {
                     }
                 }
                 else {
-                    const {type, ...rest} = params;
+                    const {type, multiple, ...rest} = params;
 
                     values[key] = await promptSelect({
                         ...rest,
+                        multiple: false,
                         default: values[key] || params.default
                     });
                 }
