@@ -52,6 +52,14 @@ jobs:
           - name: Build
             run: npm run build
 
+          - name: Test
+            run: npm run test -- --coverage --coverageReporters lcov
+
+          - name: Upload coverage reports to Codecov
+            uses: codecov/codecov-action@v5
+            with:
+                token: ${{ secrets.CODECOV_TOKEN }}
+
     publish-beta:
         name: Publish beta version
         if: github.repository_owner == 'kearisp'

@@ -21,6 +21,7 @@
 
 # Builds
 /lib/tsconfig.tsbuildinfo
+/coverage
 
 # Dependency directories
 /node_modules

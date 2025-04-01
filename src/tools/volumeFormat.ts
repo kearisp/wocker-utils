@@ -6,8 +6,8 @@ export type Volume = {
 
 export const volumeFormat = (volume: Volume) => {
     const {
-        source,
-        destination,
+        source = "/",
+        destination = "/",
         options
     } = volume;
 
