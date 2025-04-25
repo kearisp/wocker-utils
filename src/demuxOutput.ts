@@ -1,4 +1,13 @@
 export const demuxOutput = (buffer: Buffer): Buffer => {
+    function bufferSlice(end: number): Buffer {
+        const method = "subarray" in buffer ? "subarray" : "slice",
+              out = buffer[method](0, end);
+
+        buffer = Buffer.from(buffer[method](end, buffer.length));
+
+        return out;
+    }
+
     let nextDataLength = null,
         output = Buffer.from([]);
 
@@ -8,14 +17,6 @@ export const demuxOutput = (buffer: Buffer): Buffer => {
 
         const content = bufferSlice(nextDataLength);
         output = Buffer.concat([output, content]);
-    }
-
-    function bufferSlice(end: number): Buffer {
-        const out = (buffer.slice || buffer.subarray)(0, end);
-
-        buffer = Buffer.from((buffer.slice || buffer.subarray)(end, buffer.length));
-
-        return out;
     }
 
     return output;
