@@ -1,6 +1,6 @@
 {
     "name": "@wocker/utils",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
@@ -30,7 +30,6 @@
     },
     "devDependencies": {
         "@types/inquirer": "^7.3.3",
-        "jest": "^29.7.0",
-        "typescript": "^5.6.3"
+        "typescript": "^5.8.3"
     }
 }

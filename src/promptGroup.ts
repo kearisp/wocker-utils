@@ -22,16 +22,6 @@ export const promptGroup = async (options: Options, values: any = {}) => {
         const params = options[key];
 
         switch(params.type) {
-            case "number":
-            case "int":
-            case "string": {
-                res[key] = await promptText({
-                    ...params,
-                    default: values[key] || params.default
-                });
-                break;
-            }
-
             case "boolean": {
                 const {type, ...rest} = params;
 
@@ -49,6 +39,17 @@ export const promptGroup = async (options: Options, values: any = {}) => {
 
                 res[key] = await promptSelect({
                     ...rest,
+                    default: values[key] || params.default
+                });
+                break;
+            }
+
+            case "number":
+            case "int":
+            case "string":
+            default: {
+                res[key] = await promptText({
+                    ...params,
                     default: values[key] || params.default
                 });
                 break;
