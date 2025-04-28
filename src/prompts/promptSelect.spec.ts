@@ -1,16 +1,10 @@
-import {describe, it, expect, afterEach} from "@jest/globals";
-import {Logger} from "@kearisp/cli";
+import {describe, it, expect} from "@jest/globals";
 import {promptSelect, PromptSelectConfig} from "./promptSelect";
 import {KeypressEvent} from "../types/KeypressEvent";
 import {customRender} from "../../test/tools/render";
 
 
 describe("promptSelect", () => {
-    afterEach(() => {
-        Logger.debug("-".repeat(10));
-        Logger.mute();
-    });
-
     it.each<{
         config: PromptSelectConfig<string | string[]>;
         actions: (string | KeypressEvent)[];
@@ -150,10 +144,6 @@ describe("promptSelect", () => {
     });
 
     it("should show an error message", async () => {
-        Logger.unmute();
-
-        // Logger.info("11");
-
         const errorMessage = "Invalid value";
         const config: PromptSelectConfig<string> = {
             message: "Invalid",
