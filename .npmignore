@@ -6,6 +6,7 @@
 
 # Source code
 /src
+/test
 *.spec.ts
 *.spec.js
 
