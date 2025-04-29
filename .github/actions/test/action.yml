@@ -1,5 +1,10 @@
 name: Test
 
+inputs:
+    CODECOV_TOKEN:
+        required: true
+        description: 'CODECOV_TOKEN'
+
 runs:
     using: 'composite'
     steps:
@@ -22,4 +27,4 @@ runs:
         if: github.repository_owner == 'kearisp'
         uses: codecov/codecov-action@v5
         with:
-            token: ${{ secrets.CODECOV_TOKEN }}
+            token: ${{ inputs.CODECOV_TOKEN }}

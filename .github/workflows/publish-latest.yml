@@ -33,6 +33,8 @@ jobs:
 
           - name: Test
             uses: ./.github/actions/test
+            with:
+                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     publish:
         name: Publish latest version
