@@ -31,7 +31,7 @@ lerna-debug.log*
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+/coverage
 *.lcov
 
 # Output of 'npm pack'
