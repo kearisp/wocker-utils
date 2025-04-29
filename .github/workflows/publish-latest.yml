@@ -6,6 +6,34 @@ on:
           - published
 
 jobs:
+    test:
+        name: Test latest version
+        runs-on: ubuntu-latest
+        environment: test
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Set up Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: 22
+                registry-url: 'https://registry.npmjs.org'
+
+          - name: Cache dependencies
+            uses: actions/cache@v4
+            with:
+                path: ~/.npm
+                key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+                restore-keys: |
+                    ${{ runner.os }}-npm-
+
+          - name: Install dependencies
+            run: npm install
+
+          - name: Test
+            uses: ./.github/actions/test
+
     publish:
         name: Publish latest version
         if: ${{ github.repository_owner == 'kearisp' }}
@@ -34,9 +62,6 @@ jobs:
 
           - name: Install dependencies
             run: npm install
-
-          - name: Build
-            run: npm run build
 
           - name: Publish to NPM
             env:

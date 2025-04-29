@@ -26,17 +26,8 @@ jobs:
                 node-version: 22
                 registry-url: 'https://registry.npmjs.org'
 
-          - name: Setup version
-            run: |
-                PACKAGE_NAME=$(npm pkg get name | sed -e 's/^"//' -e 's/"$//')
-                PACKAGE_VERSION=$(npm pkg get version | sed -e 's/^"//' -e 's/"$//')
-                PUBLISHED_VERSION=$(npm view $PACKAGE_NAME@beta version 2>/dev/null || echo "")
-                if [[ "$PUBLISHED_VERSION" == "$PACKAGE_VERSION"* ]]; then
-                    INDEX=$(echo $PUBLISHED_VERSION | sed -r -e 's/^[0-9]+\.[0-9]+\.[0-9]+-beta\.//' | awk '{print $0+1}')
-                else
-                    INDEX=0
-                fi
-                npm pkg set version=$PACKAGE_VERSION-beta.$INDEX
+          - name: Setup beta version
+            uses: ./.github/actions/set-beta-version
 
           - name: Cache dependencies
             uses: actions/cache@v4
@@ -49,16 +40,8 @@ jobs:
           - name: Install dependencies
             run: npm install
 
-          - name: Build
-            run: npm run build
-
           - name: Test
-            run: npm run test -- --coverage --coverageReporters lcov json-summary
-
-          - name: Upload coverage reports to Codecov
-            uses: codecov/codecov-action@v5
-            with:
-                token: ${{ secrets.CODECOV_TOKEN }}
+            uses: ./.github/actions/test
 
     publish-beta:
         name: Publish beta version
@@ -79,17 +62,8 @@ jobs:
                 node-version: 22
                 registry-url: 'https://registry.npmjs.org'
 
-          - name: Setup version
-            run: |
-                PACKAGE_NAME=$(npm pkg get name | sed -e 's/^"//' -e 's/"$//')
-                PACKAGE_VERSION=$(npm pkg get version | sed -e 's/^"//' -e 's/"$//')
-                PUBLISHED_VERSION=$(npm view $PACKAGE_NAME@beta version 2>/dev/null || echo "")
-                if [[ "$PUBLISHED_VERSION" == "$PACKAGE_VERSION"* ]]; then
-                    INDEX=$(echo $PUBLISHED_VERSION | sed -r -e 's/^[0-9]+\.[0-9]+\.[0-9]+-beta\.//' | awk '{print $0+1}')
-                else
-                    INDEX=0
-                fi
-                npm pkg set version=$PACKAGE_VERSION-beta.$INDEX
+          - name: Setup beta version
+            uses: ./.github/actions/set-beta-version
 
           - name: Cache dependencies
             uses: actions/cache@v4
