@@ -12,10 +12,11 @@ import {
     Status
 } from "@inquirer/core";
 import {InquirerReadline, Context} from "@inquirer/type";
-import colors from "yoctocolors-cjs";
 import {PromptConfig} from "../types/PromptConfig";
 import {Theme} from "../types/Theme";
 import {validatePrompt} from "../validation/validatePrompt";
+import {prepareMessage} from "../tools/prepareMessage";
+import {prepareValue} from "../tools/prepareValue";
 
 
 type InputValue = string | number;
@@ -61,16 +62,8 @@ export const promptInput = createPrompt<
 
     const theme = makeTheme<Theme>({
         style: {
-            message: (message: string) => `${theme.style.highlight(message + ": ")}`,
-            value: (value: string, status: Status): string => {
-                switch(status) {
-                    case "error":
-                        return colors.red(value);
-
-                    default:
-                        return value;
-                }
-            }
+            message: prepareMessage,
+            value: prepareValue
         }
     }, config.theme);
     const [inputValue = "", setInputValue] = useState<string>(typeof defaultValue === "number" ? defaultValue.toString() : defaultValue),

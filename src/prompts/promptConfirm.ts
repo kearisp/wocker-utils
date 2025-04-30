@@ -10,6 +10,7 @@ import {
 import {PromptConfig} from "../types/PromptConfig";
 import {Theme} from "../types/Theme";
 import {validatePrompt} from "../validation/validatePrompt";
+import {prepareMessage} from "../tools/prepareMessage";
 
 
 type Config = Omit<PromptConfig<boolean>, "min" | "max" | "minLength" | "maxLength">;
@@ -42,7 +43,11 @@ export const promptConfirm = createPrompt<boolean, Config>((
         return defaultValue;
     }, [inputValue, defaultValue]);
 
-    const theme: Theme = makeTheme<Theme>({}, config.theme);
+    const theme: Theme = makeTheme<Theme>({
+        style: {
+            message: prepareMessage
+        }
+    }, config.theme);
 
     useKeypress(async (key, readline) => {
         setStatus("idle");
@@ -88,9 +93,8 @@ export const promptConfirm = createPrompt<boolean, Config>((
     return [
         [
             `${icon} `,
-            theme.style.message(message, status),
-            " ",
-            theme.style.defaultAnswer(config.default ? "Y/n" : "y/N"),
+            theme.style.message(message, status, "?"),
+            theme.style.defaultAnswer(typeof config.default === "boolean" ? (config.default ? "Y/n" : "y/N") : "y/n"),
             " ",
             inputValue
         ].join(""),
