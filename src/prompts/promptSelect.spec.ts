@@ -12,7 +12,6 @@ describe("promptSelect", () => {
     }>([
         {
             config: {
-                message: "Select",
                 options: ["Test", "Bar"]
             },
             actions: ["return"],
@@ -52,6 +51,15 @@ describe("promptSelect", () => {
             },
             actions: ["return"],
             result: "Bar"
+        },
+        {
+            config: {
+                message: "Select default not in list",
+                options: ["Foo", "Bar"],
+                default: "Test"
+            },
+            actions: ["return"],
+            result: "Foo"
         },
         {
             config: {

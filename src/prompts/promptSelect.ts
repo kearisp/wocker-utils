@@ -83,7 +83,7 @@ const selectView = <
     const [status, setStatus] = useState<Status>("idle"),
           [showHint, setShowHint] = useState(true),
           [values, setValues] = useState<string[]>(typeof config.default === "string" ? [config.default] : config.default || []),
-          [active, setActive] = useState<number>(values.length > 0 ? options.findIndex((o) => o.value === values[0]) : 0),
+          [active, setActive] = useState<number>(values.length > 0 ? Math.max(0, options.findIndex((o) => o.value === values[0])) : 0),
           [error, setError] = useState(""),
           icon = usePrefix({theme, status});
 
