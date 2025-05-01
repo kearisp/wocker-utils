@@ -3,6 +3,8 @@
 .vscode/
 /.eslintcache
 .DS_Store
+codecov
+codecov.*
 
 # Source code
 /src
@@ -12,6 +14,7 @@
 
 # Build configs
 /.env
+/.secrets
 /package-lock.json
 /tsconfig.json
 /tsconfig.build.json

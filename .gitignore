@@ -8,6 +8,7 @@
 # dotenv environment variables file
 .env
 .env.test
+.secrets
 
 # Dependency directories
 node_modules/

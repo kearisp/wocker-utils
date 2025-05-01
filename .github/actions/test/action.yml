@@ -2,29 +2,49 @@ name: Test
 
 inputs:
     CODECOV_TOKEN:
-        required: true
-        description: 'CODECOV_TOKEN'
+        required: false
+        description: 'Provides CodeCov token'
+    GIST_ID:
+        required: false
+        description: 'GIST_ID'
+    GIST_TOKEN:
+        required: false
+        description: 'GIST_TOKEN'
 
 runs:
     using: 'composite'
     steps:
-      - name: Test
+      - name: Test Coverage
         shell: bash
         run: |
             npm run test -- --coverage --coverageReporters lcovonly json-summary
-#            npm run make-coverage-badge
 
-#      - name: Upload to Gist
-#        uses: exuanbo/actions-deploy-gist@v1
-#        with:
-#            token: ${{ secrets.GIST_TOKEN }}
-#            gist_id: ${{ vars.GIST_ID }}
-#            file_path: "./coverage/badge.svg"
-#            file_type: "binary"
-#            gist_file_name: "coverage.svg"
+      - name: Create badge
+        if: ${{ inputs.GIST_ID && inputs.GIST_TOKEN }}
+        shell: bash
+        run: |
+            npm run make-coverage-badge
+
+      - name: Upload to Gist
+        if: ${{ inputs.GIST_ID && inputs.GIST_TOKEN }}
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+            token: ${{ inputs.GIST_TOKEN }}
+            gist_id: ${{ inputs.GIST_ID }}
+            file_path: "./coverage/badge.svg"
+            file_type: "binary"
+            gist_file_name: "coverage.svg"
 
       - name: Upload coverage reports to Codecov
-        if: github.repository_owner == 'kearisp'
+        if: ${{ inputs.CODECOV_TOKEN }}
         uses: codecov/codecov-action@v5
         with:
             token: ${{ inputs.CODECOV_TOKEN }}
+
+      - name: Cleaning garbage after codecov
+        if: ${{ inputs.CODECOV_TOKEN }}
+        shell: bash
+        run: |
+            git clean -fd
+            ls -la
+            pwd
