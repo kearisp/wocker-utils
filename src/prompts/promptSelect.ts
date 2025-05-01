@@ -17,6 +17,8 @@ import {Theme} from "../types/Theme";
 import {KeypressEvent} from "../types/KeypressEvent";
 import {normalizeOptions, RawOptions} from "../tools";
 import {validatePrompt} from "../validation/validatePrompt";
+import {prepareMessage} from "../tools/prepareMessage";
+import {prepareValue} from "../tools/prepareValue";
 
 
 type SelectValue = string | string[];
@@ -52,22 +54,8 @@ const selectView = <
 
     const theme = makeTheme<Theme>({
         style: {
-            message: (message: string) => colors.bold(`${message}: `),
-            value: (value: string, status: Status): string => {
-                switch(status) {
-                    case "selected":
-                        return colors.green(value);
-
-                    case "active":
-                        return colors.blue(value);
-
-                    case "done":
-                        return colors.cyan(value);
-
-                    default:
-                        return value;
-                }
-            }
+            message: prepareMessage,
+            value: prepareValue
         }
     }, config.theme);
     const options = useMemo(() => {
@@ -83,7 +71,7 @@ const selectView = <
     const [status, setStatus] = useState<Status>("idle"),
           [showHint, setShowHint] = useState(true),
           [values, setValues] = useState<string[]>(typeof config.default === "string" ? [config.default] : config.default || []),
-          [active, setActive] = useState<number>(values.length > 0 ? options.findIndex((o) => o.value === values[0]) : 0),
+          [active, setActive] = useState<number>(values.length > 0 ? Math.max(0, options.findIndex((o) => o.value === values[0])) : 0),
           [error, setError] = useState(""),
           icon = usePrefix({theme, status});
 

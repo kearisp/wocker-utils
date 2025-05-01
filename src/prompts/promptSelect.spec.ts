@@ -12,7 +12,6 @@ describe("promptSelect", () => {
     }>([
         {
             config: {
-                message: "Select",
                 options: ["Test", "Bar"]
             },
             actions: ["return"],
@@ -52,6 +51,15 @@ describe("promptSelect", () => {
             },
             actions: ["return"],
             result: "Bar"
+        },
+        {
+            config: {
+                message: "Select default not in list",
+                options: ["Foo", "Bar"],
+                default: "Test"
+            },
+            actions: ["return"],
+            result: "Foo"
         },
         {
             config: {
@@ -105,20 +113,20 @@ describe("promptSelect", () => {
 
         await events.keypress("down");
 
-        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select: \n  Option 1\n❯ Option 2\n  Option 3"\n`);
+        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select:\n  Option 1\n❯ Option 2\n  Option 3"\n`);
 
         await events.keypress("down");
 
-        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select: \n  Option 1\n  Option 2\n❯ Option 3"\n`);
+        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select:\n  Option 1\n  Option 2\n❯ Option 3"\n`);
 
         await events.keypress("up");
 
-        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select: \n  Option 1\n❯ Option 2\n  Option 3"\n`);
+        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select:\n  Option 1\n❯ Option 2\n  Option 3"\n`);
 
         await events.keypress("down");
         await events.keypress("down");
 
-        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select: \n❯ Option 1\n  Option 2\n  Option 3"\n`);
+        expect(getScreen()).toMatchInlineSnapshot(`\n"? Select:\n❯ Option 1\n  Option 2\n  Option 3"\n`);
 
         await events.keypress("return");
 
