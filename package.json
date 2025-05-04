@@ -1,6 +1,6 @@
 {
     "name": "@wocker/utils",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
@@ -24,8 +24,8 @@
         "build": "tsc --project tsconfig.build.json",
         "watch": "tsc -w --project tsconfig.build.json",
         "test": "jest",
-        "make-coverage-badge": "make-coverage-badge",
-        "test-watch": "jest --watchAll"
+        "test-watch": "jest --watchAll",
+        "make-coverage-badge": "make-coverage-badge"
     },
     "dependencies": {
         "@inquirer/core": "^10.1.10"
