@@ -1,4 +1,4 @@
-name: Publish
+name: Latest
 
 on:
     release:
@@ -7,7 +7,7 @@ on:
 
 jobs:
     publish:
-        name: Publish latest version
+        name: Publish latest
         runs-on: ubuntu-latest
         environment: publish
         permissions:
@@ -17,7 +17,7 @@ jobs:
           - name: Checkout code
             uses: actions/checkout@v4
 
-          - name: Set up Node.js
+          - name: Setup Node.js
             uses: actions/setup-node@v4
             with:
                 node-version: 22
@@ -32,15 +32,19 @@ jobs:
                   ${{ runner.os }}-npm-
 
           - name: Install dependencies
+            shell: bash
             run: npm install
 
           - name: Test
             uses: ./.github/actions/test
             with:
-                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                version: "latest"
+                gist_token: ${{ secrets.GIST_TOKEN }}
+                gist_id: ${{ secrets.GIST_ID }}
 
-          - name: Publish to NPM
+          - name: Publish latest to NPM
             if: ${{ github.repository_owner == 'kearisp' }}
+            shell: bash
             env:
                 NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
             run: npm publish --provenance

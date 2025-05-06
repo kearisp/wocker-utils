@@ -3,8 +3,6 @@
 .vscode/
 /.eslintcache
 .DS_Store
-codecov
-codecov.*
 
 # Source code
 /src

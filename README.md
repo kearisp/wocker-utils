@@ -8,7 +8,7 @@
 
 [![npm total downloads](https://img.shields.io/npm/dt/@wocker/utils.svg)](https://www.npmjs.com/package/@wocker/utils)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@wocker/utils)](https://bundlephobia.com/package/@wocker/utils)
-[![codecov](https://codecov.io/gh/kearisp/wocker-utils/graph/badge.svg?token=FU4Y9GC4QA)](https://codecov.io/gh/kearisp/wocker-utils)
+![Coverage](https://gist.githubusercontent.com/kearisp/f17f46c6332ea3bb043f27b0bddefa9f/raw/coverage-wocker-utils-latest.svg)
 
 
 ## Usage

@@ -3,12 +3,13 @@ import {render} from "@inquirer/testing";
 import {promptInput, PromptInputConfig} from "./";
 import {messages} from "../messages";
 import {customRender} from "../../test/tools/render";
+import {KeypressEvent} from "../types/KeypressEvent";
 
 
 describe("promptInput", () => {
     const getSnapshot = (config: PromptInputConfig, value: any = "", error?: string) => {
         const {
-            message = "Value",
+            message = "Input",
             prefix = "",
             suffix = ""
         } = config;
@@ -29,6 +30,11 @@ describe("promptInput", () => {
         display?: string;
         result?: any;
     }>([
+        {
+            name: "Test without message",
+            config: {} as PromptInputConfig<any>,
+            input: "test"
+        },
         {
             name: "Test with prefix",
             config: {
@@ -64,6 +70,16 @@ describe("promptInput", () => {
             result: 1
         },
         {
+            name: "Test default number",
+            config: {
+                message: "Test default number",
+                type: "number",
+                default: 1
+            },
+            input: "2",
+            result: 2
+        },
+        {
             name: "Test password",
             config: {
                 message: "Test password",
@@ -93,6 +109,44 @@ describe("promptInput", () => {
         expect(getScreen()).toMatchInlineSnapshot(getSnapshot(config, display || input));
 
         await expect(answer).resolves.toEqual(result || input);
+    });
+
+    it.each<{
+        config: PromptInputConfig<any>;
+        actions: (string | KeypressEvent)[];
+        result: string | number;
+    }>([
+        {
+            config: {
+                message: "default value",
+                default: "test"
+            },
+            actions: ["return"],
+            result: "test"
+        },
+        {
+            config: {
+                message: "Key up",
+                type: "number",
+                default: 1
+            },
+            actions: ["up", "return"],
+            result: 2
+        },
+        {
+            config: {
+                message: "NaN",
+                type: "number"
+            },
+            actions: ["type:foo", "up", "down", "return"],
+            result: NaN
+        }
+    ])("should process $config.message", async ({config, actions, result}) => {
+        const {events, answer} = await customRender(promptInput, config);
+
+        await events.process(actions);
+
+        await expect(answer).resolves.toEqual(result);
     });
 
     it("should display error", async () => {

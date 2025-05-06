@@ -1,50 +1,39 @@
 name: Test
+description: "Run tests, generate coverage reports, and upload coverage badge to GitHub Gist"
 
 inputs:
-    CODECOV_TOKEN:
+    version:
         required: false
-        description: 'Provides CodeCov token'
-    GIST_ID:
+        description: "Package version (latest or beta)"
+    gist_token:
         required: false
-        description: 'GIST_ID'
-    GIST_TOKEN:
+        description: "GitHub personal access token with Gist permissions for authentication"
+    gist_id:
         required: false
-        description: 'GIST_TOKEN'
+        description: "The ID of the GitHub Gist where the coverage badge will be uploaded"
 
 runs:
-    using: 'composite'
+    using: "composite"
     steps:
-      - name: Test Coverage
+      - name: Run tests with coverage
         shell: bash
         run: |
             npm run test -- --coverage --coverageReporters lcovonly json-summary
 
-      - name: Create badge
-        if: ${{ inputs.GIST_ID && inputs.GIST_TOKEN }}
+      - name: Generate coverage badge
+        if: ${{ inputs.gist_token && inputs.gist_id }}
         shell: bash
         run: |
             npm run make-coverage-badge
+            echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Upload to Gist
-        if: ${{ inputs.GIST_ID && inputs.GIST_TOKEN }}
+      - name: Upload coverage badge to GitHub Gist
+        if: ${{ (inputs.version == 'latest' || inputs.version == 'beta') && inputs.gist_token && inputs.gist_id }}
         uses: exuanbo/actions-deploy-gist@v1
+        continue-on-error: true
         with:
-            token: ${{ inputs.GIST_TOKEN }}
-            gist_id: ${{ inputs.GIST_ID }}
+            token: ${{ inputs.gist_token }}
+            gist_id: ${{ inputs.gist_id }}
+            gist_file_name: "coverage-${{ env.REPO_NAME }}-${{ inputs.version }}.svg"
             file_path: "./coverage/badge.svg"
-            file_type: "binary"
-            gist_file_name: "coverage.svg"
-
-      - name: Upload coverage reports to Codecov
-        if: ${{ inputs.CODECOV_TOKEN }}
-        uses: codecov/codecov-action@v5
-        with:
-            token: ${{ inputs.CODECOV_TOKEN }}
-
-      - name: Cleaning garbage after codecov
-        if: ${{ inputs.CODECOV_TOKEN }}
-        shell: bash
-        run: |
-            git clean -fd
-            ls -la
-            pwd
+            file_type: "text"
