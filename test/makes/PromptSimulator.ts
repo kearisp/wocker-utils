@@ -1,6 +1,6 @@
+import EventEmitter from "node:events";
 import {CustomMuteStream} from "./CustomMuteStream";
 import {KeypressEvent} from "../../src/types/KeypressEvent";
-import EventEmitter from "node:events";
 
 
 export class PromptSimulator {
