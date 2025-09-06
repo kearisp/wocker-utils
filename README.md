@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@wocker/utils.svg)](https://www.npmjs.com/package/@wocker/utils)
 [![Publish latest](https://github.com/kearisp/wocker-utils/actions/workflows/publish-latest.yml/badge.svg?event=release)](https://github.com/kearisp/wocker-utils/actions/workflows/publish-latest.yml)
-[![License](https://img.shields.io/npm/l/@wocker/utils)](https://github.com/kearisp/wocker-utils/blob/main/LICENSE)
+[![License](https://img.shields.io/npm/l/@wocker/utils)](https://github.com/kearisp/wocker-utils/blob/master/LICENSE)
 
 [![npm total downloads](https://img.shields.io/npm/dt/@wocker/utils.svg)](https://www.npmjs.com/package/@wocker/utils)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@wocker/utils)](https://bundlephobia.com/package/@wocker/utils)
