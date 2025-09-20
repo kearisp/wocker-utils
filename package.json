@@ -1,6 +1,6 @@
 {
     "name": "@wocker/utils",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "author": "Kris Papercut <krispcut@gmail.com>",
     "description": "Utils for @wocker",
     "license": "MIT",
@@ -28,7 +28,9 @@
         "make-coverage-badge": "make-coverage-badge"
     },
     "dependencies": {
-        "@inquirer/core": "^10.1.10"
+        "@inquirer/core": "^10.1.10",
+        "ansi-escapes": "^4.3.2",
+        "yoctocolors-cjs": "^2.1.3"
     },
     "devDependencies": {
         "@inquirer/testing": "^2.1.46",
