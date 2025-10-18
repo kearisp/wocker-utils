@@ -17,6 +17,7 @@ import {Theme} from "../types/Theme";
 import {validatePrompt} from "../validation/validatePrompt";
 import {prepareMessage} from "../tools/prepareMessage";
 import {prepareValue} from "../tools/prepareValue";
+import {prepareHelp} from "../tools/prepareHelp";
 
 
 type InputValue = string | number;
@@ -63,7 +64,8 @@ export const promptInput = createPrompt<
     const theme = makeTheme<Theme>({
         style: {
             message: prepareMessage,
-            value: prepareValue
+            value: prepareValue,
+            help: prepareHelp
         }
     }, config.theme);
     const [inputValue = "", setInputValue] = useState<string>(typeof defaultValue === "number" ? defaultValue.toString() : defaultValue),

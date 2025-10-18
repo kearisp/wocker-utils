@@ -19,6 +19,7 @@ import {normalizeOptions, RawOptions} from "../tools";
 import {validatePrompt} from "../validation/validatePrompt";
 import {prepareMessage} from "../tools/prepareMessage";
 import {prepareValue} from "../tools/prepareValue";
+import {prepareHelp} from "../tools/prepareHelp";
 
 
 type SelectValue = string | string[];
@@ -55,7 +56,8 @@ const selectView = <
     const theme = makeTheme<Theme>({
         style: {
             message: prepareMessage,
-            value: prepareValue
+            value: prepareValue,
+            help: prepareHelp
         }
     }, config.theme);
     const options = useMemo(() => {
