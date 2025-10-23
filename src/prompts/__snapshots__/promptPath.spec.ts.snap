@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`promptPath should navigate suggestions with arrows 1`] = `
+"? Enter file path: file
+
+  file1.txt
+  file2.txt
+❯ file3.txt"
+`;
+
+exports[`promptPath should return entered path on submit 1`] = `"? Enter file path:"`;

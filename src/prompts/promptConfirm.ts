@@ -11,6 +11,7 @@ import {PromptConfig} from "../types/PromptConfig";
 import {Theme} from "../types/Theme";
 import {validatePrompt} from "../validation/validatePrompt";
 import {prepareMessage} from "../tools/prepareMessage";
+import {prepareHelp} from "../tools/prepareHelp";
 
 
 type Config = Omit<PromptConfig<boolean>, "min" | "max" | "minLength" | "maxLength">;
@@ -45,7 +46,8 @@ export const promptConfirm = createPrompt<boolean, Config>((
 
     const theme: Theme = makeTheme<Theme>({
         style: {
-            message: prepareMessage
+            message: prepareMessage,
+            defaultAnswer: prepareHelp
         }
     }, config.theme);
 
