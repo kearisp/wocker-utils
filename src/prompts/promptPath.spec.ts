@@ -127,15 +127,15 @@ describe("promptPath", (): void => {
 
         const {events, getScreen} = await render(promptPath, {
             message: "Enter file path",
-            type: "file"
+            filter: "directory"
         });
 
         events.type("");
 
         const screen = getScreen();
 
-        expect(screen).toContain("file.txt");
-        expect(screen).not.toContain("directory");
+        expect(screen).toContain("directory");
+        expect(screen).not.toContain("file.txt");
     });
 
     it("should hide hidden files by default", async () => {

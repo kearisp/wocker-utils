@@ -15,7 +15,7 @@ import {
 } from "@inquirer/core";
 import figures from "@inquirer/figures";
 import {InquirerReadline} from "@inquirer/type";
-import FS from "fs";
+import FS, {Stats} from "fs";
 import Path from "path";
 import {PromptConfig} from "../types/PromptConfig";
 import {Theme} from "../types/Theme";
@@ -26,17 +26,17 @@ import {prepareHelp} from "../tools/prepareHelp";
 
 
 type Config = PromptConfig<string, {
-    type?: "file" | "directory" | "any";
     basePath?: string;
+    filter?: "file" | "directory" | ((path: string, stat: Stats) => boolean);
     showHidden?: boolean;
 }>;
 
 export const promptPath = createPrompt<string, Config>((config: Config, done: (value: string) => void) => {
     const {
         message = "Enter path",
-        type = "any",
         basePath = process.cwd(),
         showHidden = false,
+        filter,
         default: defaultValue = ""
     } = config;
 
@@ -75,10 +75,8 @@ export const promptPath = createPrompt<string, Config>((config: Config, done: (v
                 return [];
             }
 
-            const files = FS.readdirSync(currentDir);
-
-            return files
-                .filter(file => {
+            return FS.readdirSync(currentDir)
+                .filter((file) => {
                     if(!showHidden && file.startsWith("."))
                         return false;
 
@@ -88,19 +86,23 @@ export const promptPath = createPrompt<string, Config>((config: Config, done: (v
                     const filePath = Path.join(currentDir, file);
                     const stats = FS.statSync(filePath);
 
-                    if(type === "file")
-                        return stats.isFile();
-
-                    if(type === "directory")
+                    if(typeof filter === "function") {
+                        return filter(filePath, stats);
+                    }
+                    else if(filter === "file") {
+                        return stats.isFile() || stats.isDirectory();
+                    }
+                    else if(filter === "directory") {
                         return stats.isDirectory();
+                    }
 
                     return true;
                 })
                 .sort((a, b) => {
-                    const aPath = Path.join(currentDir, a);
-                    const bPath = Path.join(currentDir, b);
-                    const aIsDir = FS.statSync(aPath).isDirectory();
-                    const bIsDir = FS.statSync(bPath).isDirectory();
+                    const aPath = Path.join(currentDir, a),
+                          bPath = Path.join(currentDir, b),
+                          aIsDir = FS.statSync(aPath).isDirectory(),
+                          bIsDir = FS.statSync(bPath).isDirectory();
 
                     if(aIsDir && !bIsDir)
                         return -1;

@@ -1,14 +1,19 @@
-import {Volume} from "./volumeFormat";
+import {Volume} from "../makes/Volume";
+import {VolumeData} from "../types/VolumeData";
 
 
-export const volumeParse = (volume: string): Volume => {
-    const regVolume = /^([^:]+):([^:]+)(?::([^:]+))?$/;
+/** @deprecated */
+export const volumeParse = (volume: string): VolumeData => {
+    try {
+        const v = Volume.parse(volume);
 
-    const [, source, destination, options] = regVolume.exec(volume) || [];
-
-    return {
-        source,
-        destination,
-        options
-    };
+        return {
+            source: v.source,
+            destination: v.destination,
+            options: v.options
+        };
+    }
+    catch {
+        return {} as VolumeData;
+    }
 };

@@ -1,11 +1,12 @@
 import {describe, it, expect} from "@jest/globals";
-import {volumeFormat, Volume} from "./";
+import {volumeFormat} from "./";
+import {VolumeData} from "../types/VolumeData";
 
 
-describe("volumeFormat", () => {
-    it.each<{volume: Volume, result: string}>([
+describe("volumeFormat", (): void => {
+    it.each<{volume: VolumeData, result: string}>([
         {
-            volume: {} as Volume,
+            volume: {} as VolumeData,
             result: "/:/"
         },
         {

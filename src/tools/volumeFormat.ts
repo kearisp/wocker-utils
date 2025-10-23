@@ -1,15 +1,8 @@
-export type Volume = {
-    source: string;
-    destination: string;
-    options?: string;
-};
+import {Volume} from "../makes/Volume";
+import {VolumeData} from "../types/VolumeData";
 
-export const volumeFormat = (volume: Volume) => {
-    const {
-        source = "/",
-        destination = "/",
-        options
-    } = volume;
 
-    return `${source}:${destination}` + (options ? `:${options}` : "");
+/** @deprecated */
+export const volumeFormat = (volume: VolumeData) => {
+    return (new Volume(volume.source || "/", volume.destination || "/", volume.options)).toString();
 };
