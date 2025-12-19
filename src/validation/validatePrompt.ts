@@ -20,7 +20,7 @@ export const validatePrompt = async <T = unknown>(
 
     const isEmpty =
         typeof value === "undefined" ||
-        (typeof value === "boolean" && !value) ||
+        (typeof value === "boolean" && false) ||
         (typeof value === "string" && value === "") ||
         (typeof value === "object" && value === null) ||
         (typeof value === "number" && isNaN(value)) ||
