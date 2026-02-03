@@ -22,26 +22,27 @@ export const promptConfirm = createPrompt<boolean, Config>((
 ) => {
     const {
         message = "Confirm",
-        default: defaultValue = false
+        default: defaultValue
     } = config;
 
     const [status, setStatus] = useState<Status>("idle"),
           [inputValue, setInputValue] = useState(""),
           [error, setError] = useState(""),
           icon = usePrefix({status});
-    const result = useMemo(() => {
+
+    const [result, validResult] = useMemo(() => {
         if(inputValue) {
             if(/^y(es?)?$/i.test(inputValue)) {
-                return true;
+                return [true, true];
             }
             else if(/^(n|no)$/i.test(inputValue)) {
-                return false;
+                return [false, true];
             }
 
-            return undefined;
+            return [undefined, false];
         }
 
-        return defaultValue;
+        return [defaultValue, true];
     }, [inputValue, defaultValue]);
 
     const theme: Theme = makeTheme<Theme>({
@@ -59,7 +60,7 @@ export const promptConfirm = createPrompt<boolean, Config>((
             case "return":
                 setInputValue("");
 
-                if(typeof result === "undefined") {
+                if(!validResult) {
                     setStatus("error");
                     setError("Invalid value");
                     break;
@@ -74,7 +75,8 @@ export const promptConfirm = createPrompt<boolean, Config>((
                 }
 
                 setStatus("done");
-                done(result);
+                setInputValue(result ? "Yes" : "No");
+                done(result ?? false);
                 break;
 
             case "tab":
@@ -94,12 +96,13 @@ export const promptConfirm = createPrompt<boolean, Config>((
 
     return [
         [
-            `${icon} `,
-            theme.style.message(message, status, "?"),
-            theme.style.defaultAnswer(typeof config.default === "boolean" ? (config.default ? "Y/n" : "y/N") : "y/n"),
-            " ",
-            inputValue
-        ].join(""),
+            `${icon}`,
+            theme.style.message(message, status, "?").trim(),
+            status !== "done"
+                ? theme.style.defaultAnswer(typeof config.default === "boolean" ? (config.default ? "Y/n" : "y/N") : "y/n")
+                : undefined,
+            status === "done" ? theme.style.answer(inputValue) : inputValue
+        ].filter((m) => typeof m !== "undefined").join(" "),
         error
             ? theme.style.error(error)
             : ""
