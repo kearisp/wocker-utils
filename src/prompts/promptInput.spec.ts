@@ -10,14 +10,19 @@ describe("promptInput", () => {
     const getSnapshot = (config: PromptInputConfig, value: any = "", error?: string) => {
         const {
             message = "Input",
+            type,
             prefix = "",
             suffix = ""
         } = config;
 
-        const firstLine = `? ${message}: ${prefix}${value}${suffix}`;
+        const firstLine = `? ${message}: ${prefix}${value}${suffix}`.trim();
 
         if(!error) {
-            return `"${firstLine.trim()}"`;
+            if(type === "password") {
+                return `\n"${firstLine}\n  Press <F2> to show"\n`;
+            }
+
+            return `"${firstLine}"`;
         }
 
         return `\n"${firstLine}\n> ${error}"\n`;

@@ -69,6 +69,7 @@ export const promptInput = createPrompt<
         }
     }, config.theme);
     const [inputValue = "", setInputValue] = useState<string>(typeof defaultValue === "number" ? defaultValue.toString() : defaultValue),
+          [hide, setHide] = useState(true),
           [status, setStatus] = useState<Status>("idle"),
           [error, setError] = useState("");
 
@@ -84,12 +85,16 @@ export const promptInput = createPrompt<
     const displayValue = useMemo(() => {
         switch(type) {
             case "password":
+                if(!hide) {
+                    return inputValue;
+                }
+
                 return "*".repeat(inputValue.length);
 
             default:
                 return inputValue;
         }
-    }, [inputValue, type]);
+    }, [inputValue, type, hide]);
     const decimalPlaces = useMemo(() => {
         if(type !== "number") {
             return 0;
@@ -237,6 +242,11 @@ export const promptInput = createPrompt<
             return handleDown(readline);
         }
 
+        if(key.name === "f2" && type === "password") {
+            setHide(!hide);
+            return;
+        }
+
         handleChange(readline);
     });
 
@@ -244,12 +254,14 @@ export const promptInput = createPrompt<
         [
             `${icon} `,
             theme.style.message(message, status),
-            theme.style.help(prefix),
+            prefix ? theme.style.help(prefix) : "",
             theme.style.value(displayValue, status),
-            theme.style.help(suffix)
+            suffix ? theme.style.help(suffix) : ""
         ].join(""),
         [
-            error ? `${theme.style.error(error)}` : ""
+            error
+                ? `${theme.style.error(error)}`
+                : type === "password" ? theme.style.help(`  Press ${theme.style.key("F2")} to ${hide ? "show" : "hide"}`) : ""
         ].join("")
     ];
 }) as PromptFn;
