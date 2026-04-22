@@ -11,6 +11,10 @@ export class Volume {
         return `${this.source}:${this.destination}` + (this.options ? `:${this.options}` : "");
     }
 
+    public static isValid(volume: string): boolean {
+        return Volume.REGEX.test(volume);
+    }
+
     public static parse(volume: string): Volume {
         if(!Volume.REGEX.test(volume)) {
             throw new Error(`Invalid volume format for volume "${volume}"`);

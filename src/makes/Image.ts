@@ -33,6 +33,10 @@ export class Image {
         return image;
     }
 
+    public isValid(image: string): boolean {
+        return Image.REGEX.test(image);
+    }
+
     public static parse(image: string): Image {
         const match = Image.REGEX.exec(image);
 
