@@ -21,7 +21,7 @@ describe("Volume", () => {
         });
 
         it("should throw error for invalid format", () => {
-            expect(() => Volume.parse("invalid")).toThrow('Invalid volume format for volume "invalid"');
+            expect(() => Volume.parse("invalid")).toThrow("Invalid volume format for volume \"invalid\"");
         });
     });
 
