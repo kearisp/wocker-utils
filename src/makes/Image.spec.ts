@@ -61,23 +61,19 @@ describe("Image", () => {
 
     describe("isValid", () => {
         it("should return true for valid image name", () => {
-            const image = new Image("nginx");
-            expect(image.isValid("nginx")).toBe(true);
+            expect(Image.isValid("nginx")).toBe(true);
         });
 
         it("should return true for valid image with tag", () => {
-            const image = new Image("nginx");
-            expect(image.isValid("nginx:latest")).toBe(true);
+            expect(Image.isValid("nginx:latest")).toBe(true);
         });
 
         it("should return true for valid image with registry and repository", () => {
-            const image = new Image("nginx");
-            expect(image.isValid("registry.example.com/team/app:1.2.3")).toBe(true);
+            expect(Image.isValid("registry.example.com/team/app:1.2.3")).toBe(true);
         });
 
         it("should return false for invalid image name", () => {
-            const image = new Image("nginx");
-            expect(image.isValid("invalid image name")).toBe(false);
+            expect(Image.isValid("invalid image name")).toBe(false);
         });
     });
 
