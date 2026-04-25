@@ -33,7 +33,7 @@ export class Image {
         return image;
     }
 
-    public isValid(image: string): boolean {
+    public static isValid(image: string): boolean {
         return Image.REGEX.test(image);
     }
 
