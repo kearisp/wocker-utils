@@ -66,6 +66,10 @@ export class HttpResponse<T = unknown> {
         return this.raw.headers;
     }
 
+    public header(key: string): string | null {
+        return this.headers.get(key.toLowerCase());
+    }
+
     public get ok(): boolean {
         return this.raw.ok;
     }
