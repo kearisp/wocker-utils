@@ -30,7 +30,7 @@
     },
     "dependencies": {
         "@inquirer/core": "^10.2.2",
-        "@wocker/prompts": "^1.0.1",
+        "@wocker/prompts": "^1.0.0",
         "ansi-escapes": "^4.3.2",
         "yoctocolors-cjs": "^2.1.3"
     },
